@@ -1,0 +1,34 @@
+alter TABLE tb_m_notatreatment add bayar_Rp decimal(19,2) not null default 0;
+alter TABLE tb_m_notatreatment add disc_rp decimal(19,2) not null default 0;
+ALTER TABLE
+  tb_d_notatreatment
+drop COLUMN
+  Sesi_Terpakai INT NOT NULL DEFAULT 0;
+  
+  ALTER TABLE
+  tb_d_notatreatment
+add
+  Sesi_Terpakai INT NOT NULL DEFAULT 0;
+ALTER TABLE `tb_treatment` CHANGE `waktu_treatment` `waktu_treatment` FLOAT NULL;
+alter TABLE tb_treatment add Harga_Rp double not null default 0;
+alter TABLE tb_produk add Harga_Rp double not null default 0;
+
+CREATE TABLE auto_number (
+    template_group varchar(64) NOT NULL,
+    template_num varchar(64) NOT NULL,
+    auto_number int NOT NULL,
+    optimistic_lock int NOT NULL,
+    update_time int,
+    PRIMARY KEY (template_group, template_num)
+);
+
+ALTER TABLE `tb_m_notatreatment` CHANGE `bayar_rp` `bayar_rp` DOUBLE NOT NULL DEFAULT '0', CHANGE `disc_rp` `disc_rp` DOUBLE NOT NULL DEFAULT '0';
+
+CREATE TABLE `react`.`tb_d_NotaProduk` ( `id_d_NotaProduk` INT NOT NULL AUTO_INCREMENT , `id_NotaTreatment` INT NOT NULL , `id_produk` INT NOT NULL , `Harga_Rp` DOUBLE NOT NULL , `Qty` INT NOT NULL DEFAULT '0' , `Sub_Tot_Rp` DOUBLE NOT NULL , PRIMARY KEY (`id_d_NotaProduk`)) ENGINE = InnoDB;
+ALTER TABLE `tb_d_notaproduk` ADD INDEX(`id_NotaTreatment`);
+ALTER TABLE `tb_d_notaproduk` ADD INDEX(`id_Produk`);
+
+ALTER TABLE `tb_d_notaproduk` ADD FOREIGN KEY (`id_NotaTreatment`) REFERENCES `react`.`tb_m_notatreatment`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `tb_d_notaproduk` ADD FOREIGN KEY (`id_produk`) REFERENCES `react`.`tb_produk`(`id_produk`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE `tb_produk` CHANGE `Keterangan` `Keterangan` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
